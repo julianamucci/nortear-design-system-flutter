@@ -1,0 +1,30 @@
+name: nortear_ds_widgetbook
+description: Workbench do Nortear DS — use cases, knobs e addons. Não publicado.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.27.0"
+
+# ATENÇÃO: as restrições de versão abaixo foram escritas sem SDK do Flutter
+# nesta máquina — nenhuma foi resolvida por `flutter pub get`. Confira contra o
+# pub.dev antes do primeiro build; widgetbook, widgetbook_annotation e
+# widgetbook_generator precisam ser da mesma linha major.
+dependencies:
+  flutter:
+    sdk: flutter
+  nortear_ds:
+    path: ../nortear_ds
+  widgetbook: ^3.10.0
+  widgetbook_annotation: ^3.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.0
+  widgetbook_generator: ^3.11.0
+
+flutter:
+  uses-material-design: true

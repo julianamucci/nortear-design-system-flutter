@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tokens:
+    name: Tokens em dia
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # O gerador compara o Dart commitado com o que sairia do ds-core.
+          # Sem o repo web ao lado, o passo de sync usa o tarball publicado.
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # O Dart de tokens é commitado. Este passo existe para que ninguém edite
+      # o gerado à mão: se o commitado divergir da fonte, o build falha aqui em
+      # vez de a divergência viajar em silêncio até a tela.
+      - name: Sincroniza o @nortear/ds-core
+        run: npm run core:sync -- --from "${{ vars.DS_CORE_TARBALL_URL || '.ds-core-cache' }}"
+        continue-on-error: true
+
+      - name: Falha se os tokens estiverem defasados
+        run: npm run tokens:check
+
+  flutter:
+    name: Analyze e testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+        working-directory: packages/nortear_ds
+      - run: flutter analyze
+        working-directory: packages/nortear_ds
+      - run: flutter test
+        working-directory: packages/nortear_ds
+
+      - run: flutter pub get
+        working-directory: packages/nortear_ds_widgetbook
+      - name: Codegen do Widgetbook
+        run: dart run build_runner build --delete-conflicting-outputs
+        working-directory: packages/nortear_ds_widgetbook
+      - run: flutter analyze
+        working-directory: packages/nortear_ds_widgetbook
+
+  widgetbook-cloud:
+    name: Publica no Widgetbook Cloud
+    runs-on: ubuntu-latest
+    needs: flutter
+    # O Cloud compara o build do PR com o da base — sem o histórico ele não
+    # tem com o que comparar e o review visual vem vazio.
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+        working-directory: packages/nortear_ds_widgetbook
+      - run: dart run build_runner build --delete-conflicting-outputs
+        working-directory: packages/nortear_ds_widgetbook
+      - run: flutter build web --release
+        working-directory: packages/nortear_ds_widgetbook
+
+      - name: Push
+        run: dart run widgetbook_cli cloud build push --api-key "$WIDGETBOOK_API_KEY" --path build/web
+        working-directory: packages/nortear_ds_widgetbook
+        env:
+          WIDGETBOOK_API_KEY: ${{ secrets.WIDGETBOOK_API_KEY }}

@@ -1,0 +1,12 @@
+{
+  "name": "nortear-ds-flutter-tooling",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Ferramentaria Node do repo Flutter: sincroniza o @nortear/ds-core e gera os tokens Dart. Não faz parte do pacote publicável.",
+  "scripts": {
+    "core:sync": "node tool/sync-core.mjs",
+    "tokens:gen": "node tool/generate-tokens.mjs",
+    "tokens:check": "node tool/generate-tokens.mjs --check"
+  }
+}

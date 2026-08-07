@@ -1,0 +1,26 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    # Saída do build_runner do Widgetbook.
+    - "**/*.directories.g.dart"
+  errors:
+    # Um token documentado que não existe manda o consumidor sobrescrever uma
+    # constante inerte. Import morto é o primeiro sintoma disso.
+    unused_import: error
+    # O sistema tem tipos próprios para cor e dimensão; `dynamic` circulando
+    # entre tema e componente apaga essa garantia.
+    argument_type_not_assignable: error
+
+linter:
+  rules:
+    # O que este repo cobra além do flutter_lints padrão.
+    always_declare_return_types: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    require_trailing_commas: true
+    sort_pub_dependencies: true
+    unawaited_futures: true
+    # Widget de design system sem `key` impede o consumidor de controlar
+    # identidade na árvore — e quebra reordenação de lista.
+    use_key_in_widget_constructors: true

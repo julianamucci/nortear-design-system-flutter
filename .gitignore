@@ -1,0 +1,31 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+build/
+pubspec.lock
+*.iml
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Cópia local do @nortear/ds-core (traga com `npm run core:sync`).
+# Não versionar: a fonte de verdade é o pacote pinado, e o que este repo
+# precisa que sobreviva ao clone é o Dart GERADO a partir dele — esse sim
+# está commitado em packages/nortear_ds/lib/src/tokens/.
+.ds-core/
+
+# Node (só ferramentaria em tool/)
+node_modules/
+
+# Widgetbook
+packages/nortear_ds_widgetbook/build/
+
+# IDE / SO
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Saída do build_runner do Widgetbook — gerada localmente por
+# `dart run build_runner build -d`.
+*.directories.g.dart
