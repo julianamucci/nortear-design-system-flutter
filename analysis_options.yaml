@@ -1,4 +1,11 @@
-include: package:flutter_lints/flutter.yaml
+# Regras compartilhadas pelos dois pacotes. Cada um inclui ESTE arquivo e o
+# flutter_lints, nesta ordem (ver packages/*/analysis_options.yaml).
+#
+# O `include: package:flutter_lints/flutter.yaml` morava aqui e resolvia por
+# herança quando o analyzer subia a árvore a partir de um pacote — mas a raiz
+# não é um pacote Dart, então abrir este arquivo sozinho no editor dava
+# `include_file_not_found` permanente. Aviso fixo no painel de Problems ensina
+# a ignorar o painel.
 
 analyzer:
   exclude:

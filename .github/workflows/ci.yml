@@ -11,21 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          # O gerador compara o Dart commitado com o que sairia do ds-core.
-          # Sem o repo web ao lado, o passo de sync usa o tarball publicado.
-          fetch-depth: 1
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # O Dart de tokens é commitado. Este passo existe para que ninguém edite
-      # o gerado à mão: se o commitado divergir da fonte, o build falha aqui em
-      # vez de a divergência viajar em silêncio até a tela.
-      - name: Sincroniza o @nortear/ds-core
-        run: npm run core:sync -- --from "${{ vars.DS_CORE_TARBALL_URL || '.ds-core-cache' }}"
-        continue-on-error: true
-
+      # Tanto o Dart gerado quanto a entrada que o gerou
+      # (tool/ds-core-snapshot/) são commitados, então este passo roda offline —
+      # sem depender do repo web nem de pacote publicado.
+      #
+      # Ele existe para que ninguém edite o gerado à mão: divergiu do snapshot,
+      # o build falha aqui em vez de a divergência viajar em silêncio até a tela.
+      # Atualizar tokens é `npm run core:sync && npm run tokens:gen`, que mexe
+      # nos dois lados de uma vez.
       - name: Falha se os tokens estiverem defasados
         run: npm run tokens:check
 

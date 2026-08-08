@@ -39,7 +39,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SOURCE = path.join(ROOT, '.ds-core', 'tokens', 'figma-variables.json');
+// Lê o snapshot COMMITADO, não a cópia em `.ds-core/`. Os dois têm o mesmo
+// conteúdo — `core:sync` escreve ambos — mas só o snapshot existe num checkout
+// limpo, e é ele que torna `--check` verificável no CI.
+const SOURCE = path.join(ROOT, 'tool', 'ds-core-snapshot', 'figma-variables.json');
 const OUT_DIR = path.join(ROOT, 'packages', 'nortear_ds', 'lib', 'src', 'tokens');
 const CHECK = process.argv.includes('--check');
 
@@ -301,8 +304,8 @@ function buildClass({ key, className, defaultMode }, collection) {
 // ─── Execução ─────────────────────────────────────────────────────────────────
 
 if (!fs.existsSync(SOURCE)) {
-  console.error(`Fonte ausente: ${path.relative(ROOT, SOURCE)}`);
-  console.error('Rode `npm run core:sync` antes.');
+  console.error(`Snapshot ausente: ${path.relative(ROOT, SOURCE)}`);
+  console.error('Ele é versionado — se sumiu, rode `npm run core:sync`.');
   process.exit(1);
 }
 

@@ -1,0 +1,9 @@
+# Inclui as regras compartilhadas da raiz mais o flutter_lints. O `package:`
+# fica AQUI, onde há pubspec para resolvê-lo — na raiz não há, e o editor
+# acusava include_file_not_found.
+#
+# Se algum dia rodar `flutter create` neste pacote, ele sobrescreve este arquivo
+# por um que inclui SÓ o flutter_lints — e as regras da raiz somem em silêncio.
+include:
+  - package:flutter_lints/flutter.yaml
+  - ../../analysis_options.yaml

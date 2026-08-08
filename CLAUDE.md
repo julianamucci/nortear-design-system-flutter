@@ -27,7 +27,8 @@ packages/
     lib/use_cases/            # @widgetbook.UseCase por componente
 tool/                      # Node: sync do ds-core + geração dos tokens
 docs/guidelines/           # regras próprias do Flutter
-.ds-core/                  # cópia local do ds-core (gitignored)
+.ds-core/                  # staging do sync (gitignored)
+tool/ds-core-snapshot/     # entrada dos tokens, COMMITADA
 ```
 
 **Os dois pacotes são separados de propósito.** `widgetbook`, `build_runner` e
@@ -42,7 +43,7 @@ alguém precisar adicionar `widgetbook` ao `nortear_ds/pubspec.yaml`, a resposta
 # Tokens (Node — não precisa de Flutter)
 npm run core:sync         # traz o @nortear/ds-core para .ds-core/
 npm run tokens:gen        # .ds-core/tokens/figma-variables.json → Dart
-npm run tokens:check      # falha se o Dart commitado estiver defasado
+npm run tokens:check      # falha se o Dart commitado divergir do snapshot
 
 # Flutter
 cd packages/nortear_ds && flutter test

@@ -83,5 +83,26 @@ fs.writeFileSync(
   'utf8',
 );
 
-console.log(`\n@nortear/ds-core ${version} → .ds-core/`);
+// O snapshot é COMMITADO, ao contrário do resto de .ds-core/.
+//
+// O Dart gerado já era commitado; a entrada que o gerou, não. Sem ela,
+// `tokens:check` não tem com o que comparar em qualquer máquina que não seja a
+// de quem sincronizou — no CI ele falhava sempre, porque o checkout nunca teve
+// a fonte. Com o snapshot versionado, o check passa a significar algo
+// verificável em qualquer lugar: "o Dart commitado corresponde à entrada
+// commitada". De quebra, fica registrado de qual versão do ds-core cada
+// geração saiu.
+const snapshotDir = path.join(ROOT, 'tool', 'ds-core-snapshot');
+fs.mkdirSync(snapshotDir, { recursive: true });
+fs.copyFileSync(
+  path.join(DEST, 'tokens', 'figma-variables.json'),
+  path.join(snapshotDir, 'figma-variables.json'),
+);
+fs.writeFileSync(
+  path.join(snapshotDir, 'VERSION.txt'),
+  `@nortear/ds-core ${version}\n`,
+  'utf8',
+);
+
+console.log(`\n@nortear/ds-core ${version} → .ds-core/ (+ snapshot versionado em tool/)`);
 console.log('Agora: npm run tokens:gen');
