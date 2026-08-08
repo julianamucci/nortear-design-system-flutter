@@ -67,12 +67,14 @@ void main() {
 
     testWidgets('botão só de ícone é anunciado pelo semanticLabel', (WidgetTester tester) async {
       await tester.pumpWidget(
-        _wrap(NdsButton(
-          icon: Icons.add,
-          size: NdsButtonSize.icon,
-          semanticLabel: 'Adicionar item',
-          onPressed: () {},
-        )),
+        _wrap(
+          NdsButton(
+            icon: Icons.add,
+            size: NdsButtonSize.icon,
+            semanticLabel: 'Adicionar item',
+            onPressed: () {},
+          ),
+        ),
       );
 
       expect(find.bySemanticsLabel('Adicionar item'), findsOneWidget);

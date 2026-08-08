@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/nds_theme.dart';
+import '../tokens/tokens.g.dart';
 
 /// Variante visual do botão — define fundo, texto e borda.
 enum NdsButtonVariant { primary, secondary, destructive, outline, ghost, link }
@@ -110,6 +111,12 @@ class NdsButton extends StatelessWidget {
   Widget _content(NdsTheme t, TextStyle textStyle, Color foreground) {
     if (loading) {
       return Center(
+        // Sem os fatores, Align assume o maior tamanho permitido e o botão
+        // engole a tela. Com 1.0 ele envolve o filho e ainda centraliza dentro
+        // do mínimo de 48dp imposto pela constraint. Mesmo recurso que o
+        // RawMaterialButton usa.
+        widthFactor: 1,
+        heightFactor: 1,
         child: SizedBox(
           width: t.dimensions.sizeSm,
           height: t.dimensions.sizeSm,
@@ -136,7 +143,7 @@ class NdsButton extends StatelessWidget {
         ],
       );
     }
-    return Center(child: labelWidget ?? iconWidget!);
+    return Center(widthFactor: 1, heightFactor: 1, child: labelWidget ?? iconWidget!);
   }
 
   EdgeInsets _paddingFor(NdsTheme t, NdsButtonSize size) {
