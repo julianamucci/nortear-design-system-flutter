@@ -12,12 +12,12 @@ Widget buildNdsButtonPlayground(BuildContext context) {
   return Center(
     child: NdsButton(
       label: context.knobs.string(label: 'Label', initialValue: 'Salvar'),
-      variant: context.knobs.list<NdsButtonVariant>(
+      variant: context.knobs.object.dropdown<NdsButtonVariant>(
         label: 'Variante',
         options: NdsButtonVariant.values,
         labelBuilder: (NdsButtonVariant v) => v.name,
       ),
-      size: context.knobs.list<NdsButtonSize>(
+      size: context.knobs.object.dropdown<NdsButtonSize>(
         label: 'Tamanho',
         options: NdsButtonSize.values,
         labelBuilder: (NdsButtonSize s) => s.name,

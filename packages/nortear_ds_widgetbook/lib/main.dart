@@ -4,7 +4,7 @@ import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 // GERADO por build_runner a partir das anotações @widgetbook.UseCase.
-// Rode `dart run build_runner build -d` antes do primeiro `flutter run`.
+// Rode `dart run build_runner build` antes do primeiro `flutter run`.
 import 'main.directories.g.dart';
 
 void main() => runApp(const NortearWidgetbook());
@@ -13,42 +13,43 @@ void main() => runApp(const NortearWidgetbook());
 class NortearWidgetbook extends StatelessWidget {
   const NortearWidgetbook({super.key});
 
+  /// As 6 combinações de tema do sistema: 3 marcas × claro/escuro.
+  ///
+  /// Marca e brilho ficam num addon só de propósito. Não são eixos
+  /// independentes — o tema é a escolha, e `warm-dark` é um conjunto de tokens
+  /// tanto quanto `default-light`. Separá-los em dois seletores deixaria
+  /// combinar coisas que a coleção `Cor` não define.
+  static List<WidgetbookTheme<ThemeData>> get _themes {
+    return <WidgetbookTheme<ThemeData>>[
+      for (final String brand in NortearTheme.brands)
+        for (final Brightness brightness in Brightness.values)
+          WidgetbookTheme<ThemeData>(
+            name: '$brand · ${brightness == Brightness.light ? 'claro' : 'escuro'}',
+            data: NortearTheme.data(brand: brand, brightness: brightness),
+          ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Widgetbook.material(
       directories: directories,
       addons: <WidgetbookAddon<dynamic>>[
-        // Os quatro primeiros existem porque o sistema tem esses eixos: 3 marcas
-        // × claro/escuro, 3 densidades e 8 escalas tipográficas. Sem eles, o
-        // workbench mostraria um recorte e esconderia o resto.
-        WidgetbookAddon<ThemeData>.dropdown(
-          name: 'Marca',
-          initialSetting: 'default',
-          values: NortearTheme.brands,
-          buildSetting: (String brand) => NortearTheme.data(brand: brand),
-          builder: (BuildContext context, ThemeData theme, Widget? child) =>
-              Theme(data: theme, child: child ?? const SizedBox.shrink()),
-        ),
         ThemeAddon<ThemeData>(
-          themes: <WidgetbookTheme<ThemeData>>[
-            WidgetbookTheme<ThemeData>(name: 'Claro', data: NortearTheme.data()),
-            WidgetbookTheme<ThemeData>(
-              name: 'Escuro',
-              data: NortearTheme.data(brightness: Brightness.dark),
-            ),
-          ],
+          themes: _themes,
           themeBuilder: (BuildContext context, ThemeData theme, Widget child) =>
               Theme(data: theme, child: child),
         ),
-        // O TextScale não é conforto: é o teste vivo da regra de nunca usar
-        // altura fixa em primitivo. Em 2.0, botão com `height` corta o texto.
-        // É a leitura Flutter do WCAG 1.4.4.
-        TextScaleAddon(scales: <double>[1.0, 1.3, 2.0]),
+        // Não é conforto: é o teste vivo da regra de nunca usar altura fixa em
+        // primitivo. Em 2.0, botão com `height` corta o texto. É a leitura
+        // Flutter do WCAG 1.4.4. O piso é 1.0 porque abaixo disso não há
+        // critério a verificar.
+        TextScaleAddon(min: 1, max: 2),
         AlignmentAddon(),
         ViewportAddon(<ViewportData>[
           Viewports.none,
-          IosViewports.phones.iPhone13,
-          AndroidViewports.phones.samsungGalaxyS20,
+          IosViewports.iPhone13,
+          AndroidViewports.samsungGalaxyS20,
           MacosViewports.macbookPro,
         ]),
       ],

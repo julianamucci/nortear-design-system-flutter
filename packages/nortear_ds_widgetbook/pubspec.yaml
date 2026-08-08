@@ -7,24 +7,24 @@ environment:
   sdk: ">=3.5.0 <4.0.0"
   flutter: ">=3.27.0"
 
-# ATENÇÃO: as restrições de versão abaixo foram escritas sem SDK do Flutter
-# nesta máquina — nenhuma foi resolvida por `flutter pub get`. Confira contra o
-# pub.dev antes do primeiro build; widgetbook, widgetbook_annotation e
-# widgetbook_generator precisam ser da mesma linha major.
+# Os pisos abaixo são as versões que este código realmente usa, não mínimos
+# otimistas. `knobs.object.dropdown` e `TextScaleAddon(min:, max:)` só existem a
+# partir do widgetbook 3.25 — afrouxar o piso faria a resolução cair numa API
+# que não compila.
 dependencies:
   flutter:
     sdk: flutter
   nortear_ds:
     path: ../nortear_ds
-  widgetbook: ^3.10.0
-  widgetbook_annotation: ^3.4.0
+  widgetbook: ^3.25.0
+  widgetbook_annotation: ^3.11.0
 
 dev_dependencies:
+  build_runner: ^2.4.0
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
-  build_runner: ^2.4.0
-  widgetbook_generator: ^3.11.0
+  widgetbook_generator: ^3.24.0
 
 flutter:
   uses-material-design: true
