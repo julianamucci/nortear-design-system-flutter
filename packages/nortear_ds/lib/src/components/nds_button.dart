@@ -63,13 +63,13 @@ class NdsButton extends StatelessWidget {
     final NdsTheme t = NdsTheme.of(context);
     final _Palette palette = _paletteFor(t, variant);
     final EdgeInsets padding = _paddingFor(t, size);
-    final double fontSize = size == NdsButtonSize.small ? t.typography.textLabel : t.typography.textP;
+    final double fontSize = _fontSizeFor(size);
 
     final TextStyle textStyle = TextStyle(
       fontFamily: t.fonts.fontFamilyActive,
       fontSize: fontSize,
       fontWeight: _weightFrom(t.typography.fontWeightMedium),
-      height: t.typography.lineHeightTight,
+      height: _lineHeight,
       // letterSpacing do Flutter é em pixels lógicos; o token está em em.
       letterSpacing: t.typography.letterSpacingNormalEm * fontSize,
       decoration: variant == NdsButtonVariant.link ? TextDecoration.underline : TextDecoration.none,
@@ -118,8 +118,8 @@ class NdsButton extends StatelessWidget {
         widthFactor: 1,
         heightFactor: 1,
         child: SizedBox(
-          width: t.dimensions.sizeSm,
-          height: t.dimensions.sizeSm,
+          width: _iconSizeFor(size),
+          height: _iconSizeFor(size),
           child: CircularProgressIndicator(strokeWidth: 2, color: foreground),
         ),
       );
@@ -127,7 +127,7 @@ class NdsButton extends StatelessWidget {
 
     final Widget? iconWidget = icon == null
         ? null
-        : Icon(icon, size: t.dimensions.sizeSm, color: foreground);
+        : Icon(icon, size: _iconSizeFor(size), color: foreground);
     final Widget? labelWidget = label == null
         ? null
         : Text(label!, style: textStyle.copyWith(color: foreground), textAlign: TextAlign.center);
@@ -146,14 +146,32 @@ class NdsButton extends StatelessWidget {
     return Center(widthFactor: 1, heightFactor: 1, child: labelWidget ?? iconWidget!);
   }
 
+  /// Espelha `.nds-button` do CSS compartilhado.
+  ///
+  /// Ter ícone reduz o padding lateral — no CSS é `:has(> svg)`. Sem isso, um
+  /// botão com ícone fica largo demais, porque o ícone já ocupa o espaço que a
+  /// folga lateral existia para dar.
+  ///
+  /// Os tokens `spacing-btn-x*` NÃO são estes. Apesar do nome, valem 10 em toda
+  /// densidade e não correspondem ao padding que o CSS aplica.
   EdgeInsets _paddingFor(NdsTheme t, NdsButtonSize size) {
+    final bool hasIcon = icon != null;
     switch (size) {
       case NdsButtonSize.small:
-        return EdgeInsets.symmetric(horizontal: t.dimensions.spacingBtnXSm, vertical: t.dimensions.spacing2);
+        return EdgeInsets.symmetric(
+          horizontal: hasIcon ? t.dimensions.spacing2 : t.dimensions.spacing4,
+          vertical: t.dimensions.spacing1,
+        );
       case NdsButtonSize.medium:
-        return EdgeInsets.symmetric(horizontal: t.dimensions.spacingBtnX, vertical: t.dimensions.spacing2);
+        return EdgeInsets.symmetric(
+          horizontal: hasIcon ? t.dimensions.spacing2 : t.dimensions.spacing4,
+          vertical: t.dimensions.spacing2,
+        );
       case NdsButtonSize.large:
-        return EdgeInsets.symmetric(horizontal: t.dimensions.spacingBtnXLg, vertical: t.dimensions.spacing4);
+        return EdgeInsets.symmetric(
+          horizontal: hasIcon ? t.dimensions.spacing4 : t.dimensions.spacing6,
+          vertical: t.dimensions.spacing2,
+        );
       case NdsButtonSize.icon:
         return EdgeInsets.all(t.dimensions.spacing2);
     }
@@ -180,6 +198,40 @@ class NdsButton extends StatelessWidget {
 
 /// Mínimo do Material para alvo de toque. O iOS pede 44pt; 48 atende os dois.
 const double _minTapTarget = 48;
+
+/// `line-height: 1.25` do `.nds-button`. Sem unidade no CSS, sem unidade aqui —
+/// é multiplicador de `fontSize`, então acompanha a escala de texto.
+const double _lineHeight = 1.25;
+
+/// Corpo do texto por tamanho, em pixels lógicos.
+///
+/// Espelha o `.nds-button` do CSS, que declara `0.75rem` / `0.875rem` / `1rem`
+/// literais em vez de usar os tokens `--text-*`. A escala com a preferência do
+/// usuário não vem do token: na web vem do `rem`, aqui vem do `TextScaler`.
+double _fontSizeFor(NdsButtonSize size) {
+  switch (size) {
+    case NdsButtonSize.small:
+      return 12;
+    case NdsButtonSize.medium:
+    case NdsButtonSize.icon:
+      return 14;
+    case NdsButtonSize.large:
+      return 16;
+  }
+}
+
+/// Ícone por tamanho — `.nds-button-icon-svg-{sm,md,lg}` do CSS.
+double _iconSizeFor(NdsButtonSize size) {
+  switch (size) {
+    case NdsButtonSize.small:
+      return 14;
+    case NdsButtonSize.medium:
+    case NdsButtonSize.icon:
+      return 16;
+    case NdsButtonSize.large:
+      return 20;
+  }
+}
 
 /// Peso numérico do token (400, 500, 600, 800) → `FontWeight`.
 ///
