@@ -74,8 +74,14 @@ jobs:
       - run: flutter build web --release
         working-directory: packages/nortear_ds_widgetbook
 
+      # `dart run <pacote>:<executável>` — o executável do widgetbook_cli se
+      # chama `widgetbook`, não `widgetbook_cli`, então a forma com dois-pontos
+      # é obrigatória.
+      #
+      # `--path` é a pasta que CONTÉM `build/`, não o `build/web`. Como o
+      # working-directory já é a raiz do pacote, o default `./` serve.
       - name: Push
-        run: dart run widgetbook_cli cloud build push --api-key "$WIDGETBOOK_API_KEY" --path build/web
+        run: dart run widgetbook_cli:widgetbook cloud build push --api-key "$WIDGETBOOK_API_KEY"
         working-directory: packages/nortear_ds_widgetbook
         env:
           WIDGETBOOK_API_KEY: ${{ secrets.WIDGETBOOK_API_KEY }}
