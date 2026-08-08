@@ -1,3 +1,8 @@
+# SDK do Flutter instalado dentro do repo. É um clone git de vários GB — sem
+# esta linha, `git add -A` o arrasta inteiro para dentro do histórico.
+# O lugar canônico é fora do projeto, mas ignorar aqui torna o engano inofensivo.
+flutter/
+
 # Dart / Flutter
 .dart_tool/
 .packages

@@ -17,7 +17,7 @@ cd packages/nortear_ds && flutter pub get && flutter test
 
 cd ../nortear_ds_widgetbook
 flutter pub get
-dart run build_runner build -d
+dart run build_runner build
 flutter run -d chrome
 ```
 
@@ -55,5 +55,6 @@ Primeiro corte. Tem: pipeline de tokens (6 coleções, 51 cores × 6 modes), cam
 de tema, `NdsButton` com testes de comportamento e acessibilidade, e o app do
 Widgetbook com cinco addons.
 
-**Nenhum Dart foi compilado** — o repositório foi criado numa máquina sem SDK do
-Flutter. Detalhes e primeiros passos em [CLAUDE.md](CLAUDE.md).
+Os dois pacotes passam `flutter analyze` limpo; `nortear_ds` tem 8 testes verdes.
+O que ainda não aconteceu é o app subir de fato (`flutter run`) e o push para o
+Widgetbook Cloud. Detalhes em [CLAUDE.md](CLAUDE.md).

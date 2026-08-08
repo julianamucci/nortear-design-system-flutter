@@ -50,7 +50,7 @@ cd packages/nortear_ds && flutter analyze
 
 # Workbench
 cd packages/nortear_ds_widgetbook
-dart run build_runner build -d    # gera main.directories.g.dart
+dart run build_runner build    # gera main.directories.g.dart
 flutter run -d chrome
 ```
 
@@ -75,13 +75,39 @@ flutter run -d chrome
 
 ## Estado atual
 
-Este repo foi criado **sem SDK do Flutter na máquina**. Consequência direta:
+| Pacote | `analyze` | `test` |
+|---|---|---|
+| `nortear_ds` | limpo | 8 passando |
+| `nortear_ds_widgetbook` | limpo | sem testes |
 
-- O pipeline de tokens (Node) foi executado e verificado de verdade.
-- **Nenhum arquivo Dart foi compilado, analisado ou testado.**
-- `main.directories.g.dart` não existe — o `build_runner` não rodou. O app do
-  Widgetbook não sobe até `dart run build_runner build -d` ser executado.
-- As restrições de versão em `pubspec.yaml` não passaram por `flutter pub get`.
+O pipeline de tokens (Node) roda e é idempotente (`npm run tokens:check`).
 
-O primeiro passo de quem tiver o SDK é: `flutter pub get`, `flutter analyze`,
-`flutter test`, `build_runner`. Espere ajustes.
+Versões resolvidas do workbench: widgetbook 3.25.0, annotation 3.11.0,
+generator 3.24.0. Os pisos no `pubspec.yaml` são essas versões, não mínimos
+otimistas — `knobs.object.dropdown` e `TextScaleAddon(min:, max:)` não existem
+antes da 3.25, e afrouxar o piso deixaria a resolução cair numa API que não
+compila.
+
+O que **falta verificar**: `flutter run` de fato (o app nunca subiu) e o push
+para o Widgetbook Cloud. O workbench não tem testes próprios — os testes vivem
+no pacote do design system, que é onde está o comportamento.
+
+### Três armadilhas que já morderam aqui
+
+Ficam registradas porque nenhuma apareceu em revisão.
+
+**`Center` sem `widthFactor`/`heightFactor` engole a tela.** `Align` assume
+`constraints.biggest` quando os fatores são nulos. O `NdsButton` media 600dp de
+altura — o viewport inteiro. Em botão, use sempre `Center(widthFactor: 1,
+heightFactor: 1, …)`, que é o que o `RawMaterialButton` faz.
+
+**Teste de piso não distingue correto de gigante.** Com o botão ocupando a tela,
+`minHeight >= 48` e os três `meetsGuideline` de alvo de toque passavam
+trivialmente. Quem pegou foi o teste de escala de texto, o único que comparava
+duas medidas em vez de checar um limite. Todo primitivo precisa de pelo menos um
+teste comparativo, não só de limiar.
+
+**O SDK do Flutter foi instalado dentro do repo** (`flutter/`, vários GB, clone
+git próprio). Está no `.gitignore`. O lugar canônico é fora do projeto, mas
+ignorar torna o engano inofensivo — sem a linha, `git add -A` arrasta o SDK
+inteiro para o histórico.

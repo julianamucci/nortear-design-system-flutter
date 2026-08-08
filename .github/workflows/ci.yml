@@ -48,7 +48,7 @@ jobs:
       - run: flutter pub get
         working-directory: packages/nortear_ds_widgetbook
       - name: Codegen do Widgetbook
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build
         working-directory: packages/nortear_ds_widgetbook
       - run: flutter analyze
         working-directory: packages/nortear_ds_widgetbook
@@ -69,7 +69,7 @@ jobs:
 
       - run: flutter pub get
         working-directory: packages/nortear_ds_widgetbook
-      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: dart run build_runner build
         working-directory: packages/nortear_ds_widgetbook
       - run: flutter build web --release
         working-directory: packages/nortear_ds_widgetbook
