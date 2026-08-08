@@ -72,6 +72,11 @@ flutter run -d chrome
   para isso — sem ele o leitor de tela anuncia só "botão".
 - **Token em sintaxe CSS é traduzido no gerador**, nunca carregado como `String`
   para o componente resolver. Ver a tabela em `15-paridade-web-flutter.md`.
+- **Leia o CSS do componente antes de escrever o Dart.** Nome de token não é
+  contrato: `spacing-btn-x`, `-sm` e `-lg` parecem ser o padding lateral do
+  botão e valem 10 nas três densidades — o `.nds-button` usa `spacing-4` e
+  `spacing-6`. Inferir pelo nome custou quatro erros de layout num componente
+  só. A fonte é `.ds-core/` → o CSS em `styles/nds/<slug>.css` do repo web.
 
 ## Estado atual
 
@@ -107,7 +112,11 @@ trivialmente. Quem pegou foi o teste de escala de texto, o único que comparava
 duas medidas em vez de checar um limite. Todo primitivo precisa de pelo menos um
 teste comparativo, não só de limiar.
 
-**O SDK do Flutter foi instalado dentro do repo** (`flutter/`, vários GB, clone
-git próprio). Está no `.gitignore`. O lugar canônico é fora do projeto, mas
-ignorar torna o engano inofensivo — sem a linha, `git add -A` arrasta o SDK
-inteiro para o histórico.
+**O SDK do Flutter chegou a ser instalado dentro do repo** (`flutter/`, vários GB
+e clone git próprio). Já foi movido para `C:\src\flutter`, mas a linha `flutter/`
+segue no `.gitignore` de propósito: sem ela, reinstalar ali faz `git add -A`
+arrastar o SDK inteiro para o histórico.
+
+Ao mover o SDK, `.dart_tool/package_config.json` de cada pacote guarda o caminho
+**absoluto** dele — `flutter pub get` nos dois pacotes é obrigatório depois,
+senão `analyze` e `test` procuram o SDK onde ele não está mais.
