@@ -83,7 +83,7 @@ flutter run -d chrome
 | Pacote | `analyze` | `test` |
 |---|---|---|
 | `nortear_ds` | limpo | 8 passando |
-| `nortear_ds_widgetbook` | limpo | sem testes |
+| `nortear_ds_widgetbook` | limpo | 3 passando |
 
 O pipeline de tokens (Node) roda e é idempotente (`npm run tokens:check`).
 
