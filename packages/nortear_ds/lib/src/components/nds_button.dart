@@ -63,7 +63,7 @@ class NdsButton extends StatelessWidget {
     final NdsTheme t = NdsTheme.of(context);
     final _Palette palette = _paletteFor(t, variant);
     final EdgeInsets padding = _paddingFor(t, size);
-    final double fontSize = _fontSizeFor(size);
+    final double fontSize = _fontSizeFor(t, size);
 
     final TextStyle textStyle = TextStyle(
       fontFamily: t.fonts.fontFamilyActive,
@@ -203,20 +203,21 @@ const double _minTapTarget = 48;
 /// é multiplicador de `fontSize`, então acompanha a escala de texto.
 const double _lineHeight = 1.25;
 
-/// Corpo do texto por tamanho, em pixels lógicos.
+/// Corpo do texto por tamanho — escada `--text-control-*` do sistema.
 ///
-/// Espelha o `.nds-button` do CSS, que declara `0.75rem` / `0.875rem` / `1rem`
-/// literais em vez de usar os tokens `--text-*`. A escala com a preferência do
-/// usuário não vem do token: na web vem do `rem`, aqui vem do `TextScaler`.
-double _fontSizeFor(NdsButtonSize size) {
+/// É uma escada separada da tipografia editorial e **não varia** com a escala
+/// de tipo: controle tem tamanho previsível em qualquer contexto, só o texto
+/// corrido escala. A resposta à preferência de fonte do usuário vem do
+/// `TextScaler`, como na web vem do `rem`.
+double _fontSizeFor(NdsTheme t, NdsButtonSize size) {
   switch (size) {
     case NdsButtonSize.small:
-      return 12;
+      return t.typography.textControlSm;
     case NdsButtonSize.medium:
     case NdsButtonSize.icon:
-      return 14;
+      return t.typography.textControl;
     case NdsButtonSize.large:
-      return 16;
+      return t.typography.textControlLg;
   }
 }
 

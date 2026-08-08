@@ -19,6 +19,11 @@ class NdsTypography {
     required this.textH3,
     required this.textH2,
     required this.textH1,
+    required this.textControlXs,
+    required this.textControlSm,
+    required this.textControl,
+    required this.textControlLg,
+    required this.textControlXl,
     required this.typeBase,
     required this.typeScale,
     required this.fontWeightExtraBold,
@@ -46,6 +51,16 @@ class NdsTypography {
   final double textH2;
   /// `text-h1`
   final double textH1;
+  /// `text-control-xs`
+  final double textControlXs;
+  /// `text-control-sm`
+  final double textControlSm;
+  /// `text-control`
+  final double textControl;
+  /// `text-control-lg`
+  final double textControlLg;
+  /// `text-control-xl`
+  final double textControlXl;
   /// `type-base`
   final double typeBase;
   /// `type-scale`
@@ -81,6 +96,11 @@ class NdsTypography {
     textH3: 18.216,
     textH2: 19.436,
     textH1: 20.739,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.067,
     fontWeightExtraBold: 800.0,
@@ -104,6 +124,11 @@ class NdsTypography {
     textH3: 23.04,
     textH2: 27.648,
     textH1: 33.178,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.2,
     fontWeightExtraBold: 800.0,
@@ -127,6 +152,11 @@ class NdsTypography {
     textH3: 20.25,
     textH2: 22.781,
     textH1: 25.629,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.125,
     fontWeightExtraBold: 800.0,
@@ -150,6 +180,11 @@ class NdsTypography {
     textH3: 25.0,
     textH2: 31.25,
     textH1: 39.063,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.25,
     fontWeightExtraBold: 800.0,
@@ -173,6 +208,11 @@ class NdsTypography {
     textH3: 28.43,
     textH2: 37.897,
     textH1: 50.517,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.333,
     fontWeightExtraBold: 800.0,
@@ -196,6 +236,11 @@ class NdsTypography {
     textH3: 31.99,
     textH2: 45.234,
     textH1: 63.961,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.414,
     fontWeightExtraBold: 800.0,
@@ -219,6 +264,11 @@ class NdsTypography {
     textH3: 36.0,
     textH2: 54.0,
     textH1: 81.0,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.5,
     fontWeightExtraBold: 800.0,
@@ -242,6 +292,11 @@ class NdsTypography {
     textH3: 41.887,
     textH2: 67.773,
     textH1: 109.656,
+    textControlXs: 10.0,
+    textControlSm: 12.0,
+    textControl: 14.0,
+    textControlLg: 16.0,
+    textControlXl: 18.0,
     typeBase: 16.0,
     typeScale: 1.618,
     fontWeightExtraBold: 800.0,

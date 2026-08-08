@@ -28,15 +28,8 @@ class NdsDimensions {
     required this.spacing16,
     required this.spacing20,
     required this.spacing24,
-    required this.spacingBtnX,
-    required this.spacingBtnXSm,
-    required this.spacingBtnXLg,
-    required this.heightBadge,
-    required this.heightXs,
     required this.heightSm,
     required this.heightDefault,
-    required this.heightLg,
-    required this.heightXl,
     required this.sizeXs,
     required this.sizeSm,
     required this.sizeDefault,
@@ -75,24 +68,10 @@ class NdsDimensions {
   final double spacing20;
   /// `spacing-24`
   final double spacing24;
-  /// `spacing-btn-x`
-  final double spacingBtnX;
-  /// `spacing-btn-x-sm`
-  final double spacingBtnXSm;
-  /// `spacing-btn-x-lg`
-  final double spacingBtnXLg;
-  /// `height-badge`
-  final double heightBadge;
-  /// `height-xs`
-  final double heightXs;
   /// `height-sm`
   final double heightSm;
   /// `height-default`
   final double heightDefault;
-  /// `height-lg`
-  final double heightLg;
-  /// `height-xl`
-  final double heightXl;
   /// `size-xs`
   final double sizeXs;
   /// `size-sm`
@@ -123,15 +102,8 @@ class NdsDimensions {
     spacing16: 64.0,
     spacing20: 80.0,
     spacing24: 96.0,
-    spacingBtnX: 10.0,
-    spacingBtnXSm: 10.0,
-    spacingBtnXLg: 10.0,
-    heightBadge: 20.0,
-    heightXs: 24.0,
     heightSm: 28.0,
     heightDefault: 32.0,
-    heightLg: 36.0,
-    heightXl: 40.0,
     sizeXs: 24.0,
     sizeSm: 28.0,
     sizeDefault: 32.0,
@@ -157,15 +129,8 @@ class NdsDimensions {
     spacing16: 51.2,
     spacing20: 64.0,
     spacing24: 76.8,
-    spacingBtnX: 10.0,
-    spacingBtnXSm: 10.0,
-    spacingBtnXLg: 10.0,
-    heightBadge: 16.0,
-    heightXs: 20.0,
     heightSm: 24.0,
     heightDefault: 28.0,
-    heightLg: 32.0,
-    heightXl: 36.0,
     sizeXs: 20.0,
     sizeSm: 24.0,
     sizeDefault: 28.0,
@@ -191,15 +156,8 @@ class NdsDimensions {
     spacing16: 80.0,
     spacing20: 100.0,
     spacing24: 120.0,
-    spacingBtnX: 10.0,
-    spacingBtnXSm: 10.0,
-    spacingBtnXLg: 10.0,
-    heightBadge: 24.0,
-    heightXs: 28.0,
     heightSm: 32.0,
     heightDefault: 40.0,
-    heightLg: 44.0,
-    heightXl: 48.0,
     sizeXs: 28.0,
     sizeSm: 32.0,
     sizeDefault: 40.0,
